@@ -3,17 +3,17 @@ export const data = {
         L: {
             id: 1,
             name: 'Egi Tohari',
-            child: 'Putra ke lorem',
-            father: 'Lorem',
-            mother: 'Ipsum',
+            child: 'Putra ke 1',
+            father: 'Adin Samsudin',
+            mother: 'Nurhayati',
             image: './src/assets/images/cowo.png'
         },
         P: {
             id: 2,
             name: 'Siti Maemunah',
             child: 'Putri ke lorem',
-            father: 'Lorem',
-            mother: 'Ipsum',
+            father: 'Oman',
+            mother: 'Cucu Karyati',
             image: './src/assets/images/cewe.png'
         },
 
@@ -41,7 +41,7 @@ export const data = {
                 finish: 'Selesai'
             }
         },
-        address: 'Kp. Lorem, RT 000/ RW 000, Desa.Lorem, Kec.Ipsum, Kab.Lorem, Lorem (1234)'
+        address: 'Jl. Babakan Loa No.10a, Pasirkaliki, Kec. Cimahi Utara, Kota Cimahi, Jawa Barat 40514'
     },
 
     link: {
