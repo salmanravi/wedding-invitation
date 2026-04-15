@@ -27,8 +27,8 @@
 }
 
 .home figure img {
-    width: 28rem;
-    height: 28rem;
+    width: 15rem;
+    height: 15rem;
     border-radius: 20% 20% 0% 0%;
     object-fit: cover;
     box-shadow: var(--shadow-md);
