@@ -29,7 +29,7 @@
 .home figure img {
     width: 10rem;
     height: 10rem;
-    border-radius: 50%;
+    border-radius: 20%;
     object-fit: cover;
     box-shadow: var(--shadow-md);
 }
