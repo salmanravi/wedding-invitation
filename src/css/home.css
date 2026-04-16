@@ -10,27 +10,6 @@
     position: relative;
     transition: all 2s ease;
     transform: translateY(-100%);
-
-    width: 100%;
-    height: 100vh;
-    text-align: center;
-
-    /* Background pattern bunga */
-    background-image: url('/src/assets/images/flower.png');
-    background-repeat: no-repeat; /* atau no-repeat kalau cuma 1 */
-    background-size: auto; /* bisa juga: cover / contain / 200px */ /* ini yang bikin dia "diam" */
-    background-position: center;
-
-    /* fallback warna */
-    background-color: var(--bg-color);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    position: relative;
-    transition: all 2s ease;
-    transform: translateY(-100%);
 }
 
 .home.active {
