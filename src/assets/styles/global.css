@@ -37,7 +37,7 @@ body::before {
     position: fixed;
     inset: 0;
 
-    background-image: url('src/assets/images/flower.png'); /* GANTI PATH SESUAI FILE */
+    background-image: url('/src/assets/images/flower.png'); /* GANTI PATH SESUAI FILE */
     background-repeat: repeat;
     background-size: 200px; /* bisa ubah: 150px / 250px */
     background-position: center;
