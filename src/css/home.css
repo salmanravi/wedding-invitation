@@ -17,9 +17,8 @@
 
     /* Background pattern bunga */
     background-image: url('/src/assets/images/flower.png');
-    background-repeat: repeat; /* atau no-repeat kalau cuma 1 */
-    background-size: auto; /* bisa juga: cover / contain / 200px */
-    background-attachment: fixed; /* ini yang bikin dia "diam" */
+    background-repeat: no-repeat; /* atau no-repeat kalau cuma 1 */
+    background-size: auto; /* bisa juga: cover / contain / 200px */ /* ini yang bikin dia "diam" */
     background-position: center;
 
     /* fallback warna */
