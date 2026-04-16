@@ -32,41 +32,38 @@ html {
 /* =========================
    GLOBAL BACKGROUND PATTERN
    ========================= */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-
-    background-image: url('/src/assets/images/flower.png'); /* GANTI PATH SESUAI FILE */
-    background-repeat: repeat;
-    background-size: 200px; /* bisa ubah: 150px / 250px */
-    background-position: center;
-
-    opacity: 0.15; /* biar subtle */
-    z-index: -2;
+body {
+    position: relative;
 }
 
-/* Optional: overlay biar lebih soft */
+/* BACKGROUND IMAGE */
 body::before {
     content: "";
     position: fixed;
     inset: 0;
 
-    background-image: url('/src/assets/images/flower.png');
+    background-image: url('../assets/img/flower.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
 
-    opacity: 0.9; /* atur sesuai selera */
+    opacity: 0.5; /* ↓ lebih soft (ubah 0.3–0.6 sesuai selera) */
+
     z-index: -2;
+
+    /* efek "nyangkut" */
+    transform: scale(1.05);
+    transition: transform 0.6s ease-out;
 }
 
+/* overlay biar teks tetap kebaca */
 body::after {
     content: "";
     position: fixed;
     inset: 0;
-    background: rgba(255, 255, 255, 0.3); /* overlay halus */
+    background: rgba(255, 255, 255, 0.25);
     z-index: -1;
+}
 }
 
 /* Body */
