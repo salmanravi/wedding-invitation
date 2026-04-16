@@ -42,7 +42,7 @@ body::before {
     position: fixed;
     inset: 0;
 
-    background-image: url('../assets/img/flower.png');
+    background-image: url('/src/assets/images/flower.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
