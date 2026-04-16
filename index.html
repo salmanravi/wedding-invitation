@@ -262,5 +262,34 @@
 
 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 <script src="src/main.js" type="module"></script>
+    <script>
+let lastScroll = 0;
+
+window.addEventListener("scroll", () => {
+    const currentScroll = window.scrollY;
+    const diff = currentScroll - lastScroll;
+
+    const bg = document.body;
+
+    bg.style.setProperty('--scroll-offset', diff);
+
+    document.body.style.setProperty(
+        '--parallax',
+        `${currentScroll * 0.05}px`
+    );
+
+    document.body.style.setProperty(
+        '--scale',
+        1 + currentScroll * 0.0002
+    );
+
+    document.body.style.setProperty(
+        '--translate',
+        `${currentScroll * 0.03}px`
+    );
+
+    lastScroll = currentScroll;
+});
+</script>
 </body>
 </html>
