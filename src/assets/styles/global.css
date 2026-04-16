@@ -1,5 +1,5 @@
 :root {
-    --primary-font-color: '#212529';
+    --primary-font-color: #212529; /* FIXED (hapus tanda petik) */
     --bg-color: #f8f9fa;
 
     --fontSize-heading-lg: 3rem;
@@ -14,11 +14,13 @@
     --transition-small: all .3s ease;
 }
 
+/* Smooth scroll & hide scrollbar */
 html {
     scroll-behavior: smooth;
     scrollbar-width: none !important;
 }
 
+/* Reset */
 * {
     margin: 0;
     padding: 0;
@@ -27,24 +29,57 @@ html {
     outline: none;
 }
 
+/* =========================
+   GLOBAL BACKGROUND PATTERN
+   ========================= */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background-image: url('src/assets/images/flower.png'); /* GANTI PATH SESUAI FILE */
+    background-repeat: repeat;
+    background-size: 200px; /* bisa ubah: 150px / 250px */
+    background-position: center;
+
+    opacity: 0.15; /* biar subtle */
+    z-index: -2;
+}
+
+/* Optional: overlay biar lebih soft */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.6);
+    z-index: -1;
+}
+
+/* Body */
 body {
     font-family: 'Josefin Sans', sans-serif;
     color: var(--primary-font-color);
     overflow-y: hidden;
+    position: relative;
 }
 
 body.active {
     overflow-y: auto;
 }
 
+/* Hide scrollbar (Chrome, Safari) */
 body::-webkit-scrollbar {
     display: none;
 }
 
+/* Text */
 p {
     line-height: 1.7rem;
 }
 
+/* =========================
+   AUDIO BUTTON
+   ========================= */
 .audio button {
     width: 2rem;
     height: 2rem;
@@ -53,15 +88,19 @@ p {
     background-color: #fff;
     color: #000;
     font-size: 1.2rem;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     position: fixed;
     right: 1rem;
     bottom: 1rem;
+
     cursor: pointer;
     transform: translateX(200%);
     transition: 1.5s transform ease;
+    z-index: 10; /* pastikan di atas */
 }
 
 .audio button.show {
@@ -72,12 +111,13 @@ p {
     animation: rotate 3s linear infinite;
 }
 
-
+/* =========================
+   ANIMATIONS
+   ========================= */
 @keyframes rotate {
     0% {
         transform: rotate(0deg);
     }
-
     100% {
         transform: rotate(360deg);
     }
