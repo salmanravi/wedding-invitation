@@ -47,7 +47,7 @@ body::before {
     background-size: cover;
     background-position: center;
 
-    opacity: 0.5; /* ↓ lebih soft (ubah 0.3–0.6 sesuai selera) */
+    opacity: 0.3; /* ↓ lebih soft (ubah 0.3–0.6 sesuai selera) */
 
     z-index: -2;
 
