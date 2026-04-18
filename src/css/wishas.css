@@ -7,14 +7,15 @@
     text-align: center;
 }
 
-.wishas div:nth-of-type(1) h2, .wishas div:nth-of-type(2) h2 {
+.wishas div:nth-of-type(1) h2,
+.wishas div:nth-of-type(2) h2 {
     font-size: var(--fontSize-heading-base);
     font-family: var(--sacramento);
     font-weight: 400;
 }
 
 /* ===============================
-   BANK (TETAP)
+   BANK
 =============================== */
 
 .wishas div:nth-of-type(1) > div {
@@ -57,10 +58,10 @@
 }
 
 /* ===============================
-   FORM (TETAP)
+   FORM
 =============================== */
 
-.wishas div:nth-of-type(2){
+.wishas div:nth-of-type(2) {
     margin-top: 2rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
@@ -74,7 +75,7 @@
 }
 
 .wishas div:nth-of-type(2) > form label {
-    margin-top: 1.4rem;
+    margin-top: 1.2rem;
     margin-bottom: 4px;
 }
 
@@ -82,13 +83,13 @@
 .wishas div:nth-of-type(2) > form select,
 .wishas div:nth-of-type(2) > form textarea {
     width: 100%;
-    padding: 0.6rem 1rem;
+    padding: 0.5rem 0.8rem;
     border-radius: 5px;
     border: 1px solid #000;
 }
 
 .wishas div:nth-of-type(2) > form textarea {
-    min-height: 6rem;
+    min-height: 5rem;
 }
 
 .wishas div:nth-of-type(2) > form button {
@@ -103,7 +104,7 @@
 }
 
 /* ===============================
-   UCAPAN (CHAT STYLE)
+   UCAPAN (CHAT STYLE COMPACT)
 =============================== */
 
 .wishas div:nth-of-type(3) {
@@ -114,90 +115,94 @@
 }
 
 .wishas div:nth-of-type(3) ul {
-    margin-top: 1.4rem;
+    margin-top: 1.2rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 10px;
     min-height: 26rem;
     max-height: 30rem;
     overflow-y: auto;
 }
 
-/* ===== CHAT ITEM ===== */
-.wishas div:nth-of-type(3) ul li.chat-item {
+/* CHAT ITEM */
+.chat-item {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     align-items: flex-start;
+    margin-bottom: 6px;
 }
 
-/* Avatar */
-.wishas div:nth-of-type(3) ul li.chat-item .avatar {
-    width: 36px;
-    height: 36px;
+/* AVATAR */
+.avatar {
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #fff;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 12px;
     flex-shrink: 0;
 }
 
-/* Content */
-.wishas div:nth-of-type(3) ul li.chat-item .chat-content {
-    max-width: 75%;
+/* CONTENT */
+.chat-content {
+    max-width: 65%;
     text-align: left;
 }
 
-/* Header */
+/* HEADER */
 .chat-header {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     align-items: center;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 .chat-header .name {
+    font-size: 13px;
     font-weight: 600;
-    font-size: 14px;
 }
 
 .chat-header .status {
-    font-size: 12px;
-    color: #888;
+    font-size: 11px;
+    color: #999;
 }
 
-/* Bubble */
+/* BUBBLE */
 .chat-bubble {
     background: #f1f1f1;
-    padding: 10px 12px;
-    border-radius: 12px;
-    font-size: 14px;
-    line-height: 1.4;
+    padding: 8px 10px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.35;
+    word-break: break-word;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
-/* Hadir highlight */
+/* HADIR */
 .chat-bubble.hadir {
     background: #e7f7ed;
 }
 
-/* Time */
+/* TIME */
 .chat-time {
-    font-size: 11px;
+    font-size: 10px;
     color: #aaa;
-    margin-top: 4px;
+    margin-top: 2px;
+    line-height: 1;
 }
 
-/* Animasi */
+/* ANIMATION */
 .chat-item {
-    animation: fadeIn 0.4s ease;
+    animation: fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(6px);
+        transform: translateY(5px);
     }
     to {
         opacity: 1;
@@ -206,7 +211,7 @@
 }
 
 /* ===============================
-   PAGINATION (TETAP)
+   PAGINATION
 =============================== */
 
 .wishas div:nth-of-type(3) .button-grup {
