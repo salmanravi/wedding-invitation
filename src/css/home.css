@@ -31,7 +31,6 @@
     height: 15rem;
     border-radius: 0% 0% 0% 0%;
     object-fit: cover;
-    box-shadow: var(--shadow-md);
 }
 
 .home figure figcaption {
