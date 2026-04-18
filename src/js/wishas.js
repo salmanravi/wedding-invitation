@@ -16,10 +16,6 @@ const supabase = window.supabase.createClient(
 
 export const wishas = () => {
 
-    // 🔥 cegah init dobel
-    if (window.__wishasInitialized) return;
-    window.__wishasInitialized = true;
-
     const wishasContainer = document.querySelector('.wishas');
     const [_, form] = wishasContainer.children[2].children;
     const [peopleComentar, ___, containerComentar] = wishasContainer.children[3].children;
@@ -35,8 +31,7 @@ export const wishas = () => {
     let startIndex = 0;
     let endIndex = itemsPerPage;
     let allData = [];
-    let ids = new Set();
-    let isSubmitting = false;
+    let ids = new Set(); // 🔥 anti double
 
     // ===============================
     // BANK
@@ -84,9 +79,6 @@ export const wishas = () => {
         color: generateRandomColor()
     });
 
-    // ===============================
-    // CHAT UI
-    // ===============================
     const listItemComentar = (data) => {
         const name = formattedName(data.name);
         const newDate = formattedDate(data.date);
@@ -95,34 +87,22 @@ export const wishas = () => {
 
         if (newDate.days < 1) {
             date = newDate.hours < 1
-                ? `${newDate.minutes} menit lalu`
-                : `${newDate.hours} jam lalu`;
+                ? `${newDate.minutes} menit yang lalu`
+                : `${newDate.hours} jam, ${newDate.minutes} menit yang lalu`;
         } else {
-            date = `${newDate.days} hari lalu`;
+            date = `${newDate.days} hari, ${newDate.hours} jam yang lalu`;
         }
 
-        const isHadir = data.status === 'Hadir';
-
-        return `
-        <li class="chat-item">
-            <div class="avatar" style="background:${data.color}">
+        return `<li>
+            <div style="background-color:${data.color}">
                 ${data.name.charAt(0).toUpperCase()}
             </div>
-
-            <div class="chat-content">
-                <div class="chat-header">
-                    <span class="name">${name}</span>
-                    <span class="status">${data.status}</span>
-                </div>
-
-                <div class="chat-bubble ${isHadir ? 'hadir' : ''}">
-                    ${data.message}
-                </div>
-
-                <div class="chat-time">${date}</div>
+            <div>
+                <h4>${name}</h4>
+                <p>${date} <br>${data.status}</p>
+                <p>${data.message}</p>
             </div>
-        </li>
-        `;
+        </li>`;
     };
 
     // ===============================
@@ -136,7 +116,7 @@ export const wishas = () => {
     };
 
     // ===============================
-    // LOAD DATA
+    // LOAD DATA AWAL
     // ===============================
     const loadData = async () => {
         containerComentar.innerHTML = `<h1>Loading...</h1>`;
@@ -162,15 +142,10 @@ export const wishas = () => {
     };
 
     // ===============================
-    // SUBMIT (FIXED)
+    // SUBMIT (fallback + realtime safe)
     // ===============================
-    form.onsubmit = async (e) => {
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
-
-        if (isSubmitting) return;
-        isSubmitting = true;
-
-        buttonForm.disabled = true;
         buttonForm.textContent = 'Loading...';
 
         const name = e.target.name.value;
@@ -185,14 +160,13 @@ export const wishas = () => {
         if (error) {
             console.error(error);
             alert(error.message);
-            buttonForm.disabled = false;
             buttonForm.textContent = 'Kirim';
-            isSubmitting = false;
             return;
         }
 
         const item = data[0];
 
+        // 🔥 anti double
         if (!ids.has(item.id)) {
             ids.add(item.id);
 
@@ -204,13 +178,11 @@ export const wishas = () => {
         }
 
         form.reset();
-        buttonForm.disabled = false;
         buttonForm.textContent = 'Kirim';
-        isSubmitting = false;
-    };
+    });
 
     // ===============================
-    // REALTIME
+    // REALTIME (anti double)
     // ===============================
     supabase
         .channel("wishes-channel")
@@ -225,6 +197,7 @@ export const wishas = () => {
 
                 const item = payload.new;
 
+                // 🔥 cegah double
                 if (ids.has(item.id)) return;
 
                 ids.add(item.id);
