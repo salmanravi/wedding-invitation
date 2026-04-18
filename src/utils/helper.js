@@ -27,25 +27,22 @@ export const removeClassElement = (element, currentClass) => {
     element.classList.remove(currentClass);
 }
 
-export const formattedDate = (date) => {
-    const d1 = new Date(date);
-    const d2 = new Date();
+export function formattedDate(dateString) {
+    const now = new Date();
+    const created = new Date(dateString); // ini sudah auto convert ke local
 
-    const diffInMs = Math.abs(d2 - d1);
+    const diff = now - created;
 
-    const msInMinute = 60 * 1000;
-    const msInHour = 60 * msInMinute;
-    const msInDay = 24 * msInHour;
-
-    const days = Math.floor(diffInMs / msInDay);
-    const hours = Math.floor((diffInMs % msInDay) / msInHour);
-    const minutes = Math.floor((diffInMs % msInHour) / msInMinute);
+    const minutes = Math.floor(diff / (1000 * 60));
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
 
     return {
-        days: days,
-        hours: hours,
-        minutes: minutes
+        minutes,
+        hours,
+        days
     };
+}
 }
 
 export const formattedName = (name) => {
