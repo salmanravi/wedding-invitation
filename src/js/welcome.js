@@ -1,5 +1,5 @@
-import {data} from "../assets/data/data.js";
-import {addClassElement, getQueryParameter, removeClassElement} from "../utils/helper.js";
+import { data } from "../assets/data/data.js";
+import { addClassElement, getQueryParameter, removeClassElement } from "../utils/helper.js";
 
 export const welcome = () => {
     const welcomeElement = document.querySelector('.welcome');
@@ -11,7 +11,7 @@ export const welcome = () => {
     const [iconButton] = audioButton.children;
 
     const generateFigureContent = (bride) => {
-        const {L: {name: brideLName}, P: {name: bridePName}, couple: coupleImage} = bride;
+        const { L: { name: brideLName }, P: { name: bridePName }, couple: coupleImage } = bride;
         return `
             <img src="${coupleImage}" alt="couple animation">
             <figcaption>
@@ -19,17 +19,34 @@ export const welcome = () => {
             </figcaption>`;
     };
 
+    // 🔥 UPDATED: handle slug + fallback
     const generateParameterContent = () => {
         const name = document.querySelector('#name');
         const params = getQueryParameter('to');
 
-        if (params) {
-            weddingToElement.innerHTML = `Kepada Yth Bapak/Ibu/Saudara/i<br><span>${params}</span>`;
-            name.value = params;
-        } else {
-            weddingToElement.innerHTML = `Kepada Yth Bapak/Ibu/Saudara/i<br><span>Teman-teman semua</span>`;
+        // convert slug → nama normal
+        const slugToName = (slug) => {
+            if (!slug) return null;
+
+            return decodeURIComponent(slug)
+                .replace(/-+/g, " ")     // handle multiple dash
+                .trim()
+                .replace(/\b\w/g, char => char.toUpperCase());
+        };
+
+        const guestName = slugToName(params);
+        const displayName = guestName || "Teman-teman semua";
+
+        weddingToElement.innerHTML = `
+            Kepada Yth Bapak/Ibu/Saudara/i<br>
+            <span>${displayName}</span>
+        `;
+
+        // isi otomatis ke input (kalau ada)
+        if (guestName && name) {
+            name.value = guestName;
         }
-    }
+    };
 
     const initialAudio = () => {
         let isPlaying = false;
@@ -37,7 +54,6 @@ export const welcome = () => {
         audioMusic.innerHTML = `<source src=${data.audio} type="audio/mp3"/>`;
 
         audioButton.addEventListener('click', () => {
-
             if (isPlaying) {
                 addClassElement(audioButton, 'active');
                 removeClassElement(iconButton, 'bx-play-circle');
@@ -75,8 +91,8 @@ export const welcome = () => {
         figureElement.innerHTML = generateFigureContent(data.bride);
         generateParameterContent();
         addClassElement(welcomeElement, 'active');
-    }
+    };
 
     initializeWelcome();
     initialAudio();
-}
+};
