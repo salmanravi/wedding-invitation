@@ -42,7 +42,7 @@ export function formattedDate(dateString) {
         hours,
         days
     };
-}
+
 }
 
 export const formattedName = (name) => {
