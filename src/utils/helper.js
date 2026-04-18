@@ -28,19 +28,15 @@ export const removeClassElement = (element, currentClass) => {
 }
 
 export function formattedDate(dateString) {
-    const now = new Date();
-    const created = new Date(dateString); // ini sudah auto convert ke local
+    const now = Date.now();
+    const created = new Date(dateString).getTime();
 
     const diff = now - created;
 
-    const minutes = Math.floor(diff / (1000 * 60));
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-
     return {
-        minutes,
-        hours,
-        days
+        minutes: Math.floor(diff / 60000),
+        hours: Math.floor(diff / 3600000),
+        days: Math.floor(diff / 86400000)
     };
 
 }
