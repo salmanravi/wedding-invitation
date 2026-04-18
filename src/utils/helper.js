@@ -33,12 +33,15 @@ export function formattedDate(dateString) {
 
     const diff = now - created;
 
-    return {
-        minutes: Math.floor(diff / 60000),
-        hours: Math.floor(diff / 3600000),
-        days: Math.floor(diff / 86400000)
-    };
+    const totalMinutes = Math.floor(diff / 60000);
+    const totalHours = Math.floor(diff / 3600000);
+    const totalDays = Math.floor(diff / 86400000);
 
+    return {
+        days: totalDays,
+        hours: totalHours % 24,          // 🔥 sisa jam
+        minutes: totalMinutes % 60       // 🔥 sisa menit
+    };
 }
 
 export const formattedName = (name) => {
