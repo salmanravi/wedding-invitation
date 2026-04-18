@@ -11,10 +11,14 @@ import { data } from "../assets/data/data.js";
 // ===============================
 const supabase = window.supabase.createClient(
     "https://vccqbcooezemimdwemui.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjY3FiY29vZXplbWltZHdlbXVpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0OTk0MTUsImV4cCI6MjA5MjA3NTQxNX0.GW_jwb98pY5f2yTquL6bfd2ZbZ1gveODjg5K9pbQ0oA"
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjY3FiY29vZXplbWltZHdlbXVpIiwicm9sZSI: "anon"
 );
 
 export const wishas = () => {
+
+    // 🔥 cegah init dobel
+    if (window.__wishasInitialized) return;
+    window.__wishasInitialized = true;
 
     const wishasContainer = document.querySelector('.wishas');
     const [_, form] = wishasContainer.children[2].children;
@@ -31,7 +35,8 @@ export const wishas = () => {
     let startIndex = 0;
     let endIndex = itemsPerPage;
     let allData = [];
-    let ids = new Set(); // 🔥 anti double
+    let ids = new Set();
+    let isSubmitting = false;
 
     // ===============================
     // BANK
@@ -79,6 +84,9 @@ export const wishas = () => {
         color: generateRandomColor()
     });
 
+    // ===============================
+    // CHAT UI
+    // ===============================
     const listItemComentar = (data) => {
         const name = formattedName(data.name);
         const newDate = formattedDate(data.date);
@@ -87,22 +95,34 @@ export const wishas = () => {
 
         if (newDate.days < 1) {
             date = newDate.hours < 1
-                ? `${newDate.minutes} menit yang lalu`
-                : `${newDate.hours} jam, ${newDate.minutes} menit yang lalu`;
+                ? `${newDate.minutes} menit lalu`
+                : `${newDate.hours} jam lalu`;
         } else {
-            date = `${newDate.days} hari, ${newDate.hours} jam yang lalu`;
+            date = `${newDate.days} hari lalu`;
         }
 
-        return `<li>
-            <div style="background-color:${data.color}">
+        const isHadir = data.status === 'Hadir';
+
+        return `
+        <li class="chat-item">
+            <div class="avatar" style="background:${data.color}">
                 ${data.name.charAt(0).toUpperCase()}
             </div>
-            <div>
-                <h4>${name}</h4>
-                <p>${date} <br>${data.status}</p>
-                <p>${data.message}</p>
+
+            <div class="chat-content">
+                <div class="chat-header">
+                    <span class="name">${name}</span>
+                    <span class="status">${data.status}</span>
+                </div>
+
+                <div class="chat-bubble ${isHadir ? 'hadir' : ''}">
+                    ${data.message}
+                </div>
+
+                <div class="chat-time">${date}</div>
             </div>
-        </li>`;
+        </li>
+        `;
     };
 
     // ===============================
@@ -116,7 +136,7 @@ export const wishas = () => {
     };
 
     // ===============================
-    // LOAD DATA AWAL
+    // LOAD DATA
     // ===============================
     const loadData = async () => {
         containerComentar.innerHTML = `<h1>Loading...</h1>`;
@@ -142,10 +162,15 @@ export const wishas = () => {
     };
 
     // ===============================
-    // SUBMIT (fallback + realtime safe)
+    // SUBMIT (FIXED)
     // ===============================
-    form.addEventListener('submit', async (e) => {
+    form.onsubmit = async (e) => {
         e.preventDefault();
+
+        if (isSubmitting) return;
+        isSubmitting = true;
+
+        buttonForm.disabled = true;
         buttonForm.textContent = 'Loading...';
 
         const name = e.target.name.value;
@@ -160,13 +185,14 @@ export const wishas = () => {
         if (error) {
             console.error(error);
             alert(error.message);
+            buttonForm.disabled = false;
             buttonForm.textContent = 'Kirim';
+            isSubmitting = false;
             return;
         }
 
         const item = data[0];
 
-        // 🔥 anti double
         if (!ids.has(item.id)) {
             ids.add(item.id);
 
@@ -178,11 +204,13 @@ export const wishas = () => {
         }
 
         form.reset();
+        buttonForm.disabled = false;
         buttonForm.textContent = 'Kirim';
-    });
+        isSubmitting = false;
+    };
 
     // ===============================
-    // REALTIME (anti double)
+    // REALTIME
     // ===============================
     supabase
         .channel("wishes-channel")
@@ -197,7 +225,6 @@ export const wishas = () => {
 
                 const item = payload.new;
 
-                // 🔥 cegah double
                 if (ids.has(item.id)) return;
 
                 ids.add(item.id);
