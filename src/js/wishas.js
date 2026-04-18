@@ -6,8 +6,15 @@ import {
     getCurrentDateTime,
     renderElement
 } from "../utils/helper.js";
-import {data} from "../assets/data/data.js";
-import {comentarService} from "../services/comentarService.js";
+import { data } from "../assets/data/data.js";
+
+// ===============================
+// SUPABASE INIT
+// ===============================
+const supabase = window.supabase.createClient(
+    "https://vccqbcooezemimdwemui.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+);
 
 export const wishas = () => {
     const wishasContainer = document.querySelector('.wishas');
@@ -17,11 +24,14 @@ export const wishas = () => {
     const pageNumber = wishasContainer.querySelector('.page-number');
     const [prevButton, nextButton] = wishasContainer.querySelectorAll('.button-grup button');
 
+    // ===============================
+    // BANK (tetap)
+    // ===============================
     const listItemBank = (data) => (
         `  <figure data-aos="zoom-in" data-aos-duration="1000">
-                <img src=${data.icon} alt="bank icon animation">
+                <img src=${data.icon}>
                 <figcaption>No. Rekening ${data.rekening.slice(0, 4)}xxxx <br>A.n ${data.name}</figcaption>
-                <button data-rekening=${data.rekening} aria-label="copy rekening">Salin No. Rekening</button>
+                <button data-rekening=${data.rekening}>Salin No. Rekening</button>
            </figure>`
     );
 
@@ -38,7 +48,7 @@ export const wishas = () => {
                     await navigator.clipboard.writeText(rekening);
                     button.textContent = 'Berhasil menyalin';
                 } catch (error) {
-                    console.log(`Error : ${error.message}`);
+                    console.log(error);
                 } finally {
                     setTimeout(() => {
                         button.textContent = 'Salin No. Rekening';
@@ -48,9 +58,21 @@ export const wishas = () => {
         });
     };
 
+    // ===============================
+    // FORMAT DATA
+    // ===============================
+    const mapData = (item) => ({
+        name: item.name,
+        status: item.status === 'y' ? 'Hadir' : 'Tidak Hadir',
+        message: item.message,
+        date: item.created_at,
+        color: generateRandomColor()
+    });
+
     const listItemComentar = (data) => {
         const name = formattedName(data.name);
         const newDate = formattedDate(data.date);
+
         let date = "";
 
         if (newDate.days < 1) {
@@ -73,109 +95,120 @@ export const wishas = () => {
                  </li>`;
     };
 
-    let lengthComentar;
-
-    const initialComentar = async () => {
-        containerComentar.innerHTML = `<h1 style="font-size: 1rem; margin: auto">Loading...</h1>`;
-        peopleComentar.textContent = '...';
-        pageNumber.textContent = '..';
-
-        try {
-            const response = await comentarService.getComentar();
-            const {comentar} = response;
-
-            lengthComentar = comentar.length;
-            comentar.reverse();
-
-            if (comentar.length > 0) {
-                peopleComentar.textContent = `${comentar.length} Orang telah mengucapkan`;
-            } else {
-                peopleComentar.textContent = `Belum ada yang mengucapkan`;
-            }
-
-            pageNumber.textContent = '1';
-            renderElement(comentar.slice(startIndex, endIndex), containerComentar, listItemComentar);
-        } catch (error) {
-            return `Error : ${error.message}`;
-        }
-    };
-
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        buttonForm.textContent = 'Loading...';
-
-        const comentar = {
-            id: generateRandomId(),
-            name: e.target.name.value,
-            status: e.target.status.value === 'y' ? 'Hadir' : 'Tidak Hadir',
-            message: e.target.message.value,
-            date: getCurrentDateTime(),
-            color: generateRandomColor(),
-        };
-
-        try {
-            const response = await comentarService.getComentar();
-
-            await comentarService.addComentar(comentar);
-
-            lengthComentar = response.comentar.length;
-
-            peopleComentar.textContent = `${++response.comentar.length} Orang telah mengucapkan`;
-            containerComentar.insertAdjacentHTML('afterbegin', listItemComentar(comentar));
-        } catch (error) {
-            return `Error : ${error.message}`;
-        } finally {
-            buttonForm.textContent = 'Kirim';
-            form.reset();
-        }
-    });
-
-    // click prev & next
+    // ===============================
+    // PAGINATION STATE
+    // ===============================
     let currentPage = 1;
     let itemsPerPage = 4;
     let startIndex = 0;
     let endIndex = itemsPerPage;
+    let allData = [];
 
-    const updatePageContent = async () => {
-        containerComentar.innerHTML = '<h1 style="font-size: 1rem; margin: auto">Loading...</h1>';
+    // ===============================
+    // LOAD DATA
+    // ===============================
+    const loadData = async () => {
+        containerComentar.innerHTML = `<h1 style="font-size: 1rem;">Loading...</h1>`;
         pageNumber.textContent = '..';
-        prevButton.disabled = true;
-        nextButton.disabled = true;
 
-        try {
-            const response = await comentarService.getComentar();
-            const {comentar} = response;
+        const { data, error } = await supabase
+            .from("wishes")
+            .select("*")
+            .order("created_at", { ascending: false });
 
-            comentar.reverse();
-
-            renderElement(comentar.slice(startIndex, endIndex), containerComentar, listItemComentar);
-            pageNumber.textContent = currentPage.toString();
-        } catch (error) {
-            console.log(error);
-        } finally {
-            prevButton.disabled = false;
-            nextButton.disabled = false;
+        if (error) {
+            console.error(error);
+            return;
         }
-    }
 
-    nextButton.addEventListener('click', async () => {
-        if (endIndex <= lengthComentar) {
+        allData = data.map(mapData);
+
+        if (allData.length > 0) {
+            peopleComentar.textContent = `${allData.length} Orang telah mengucapkan`;
+        } else {
+            peopleComentar.textContent = `Belum ada yang mengucapkan`;
+        }
+
+        renderPage();
+    };
+
+    const renderPage = () => {
+        containerComentar.innerHTML = "";
+        const slice = allData.slice(startIndex, endIndex);
+        renderElement(slice, containerComentar, listItemComentar);
+        pageNumber.textContent = currentPage.toString();
+    };
+
+    // ===============================
+    // SUBMIT
+    // ===============================
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        buttonForm.textContent = 'Loading...';
+
+        const name = e.target.name.value;
+        const status = e.target.status.value;
+        const message = e.target.message.value;
+
+        const { error } = await supabase.from("wishes").insert([
+            { name, status, message }
+        ]);
+
+        if (error) {
+            console.error(error);
+        }
+
+        buttonForm.textContent = 'Kirim';
+        form.reset();
+    });
+
+    // ===============================
+    // REALTIME
+    // ===============================
+    supabase
+        .channel("wishes-channel")
+        .on(
+            "postgres_changes",
+            {
+                event: "INSERT",
+                schema: "public",
+                table: "wishes",
+            },
+            (payload) => {
+                const newItem = mapData(payload.new);
+
+                allData.unshift(newItem);
+                peopleComentar.textContent = `${allData.length} Orang telah mengucapkan`;
+
+                renderPage();
+            }
+        )
+        .subscribe();
+
+    // ===============================
+    // PAGINATION
+    // ===============================
+    nextButton.addEventListener('click', () => {
+        if (endIndex < allData.length) {
             currentPage++;
             startIndex = (currentPage - 1) * itemsPerPage;
             endIndex = startIndex + itemsPerPage;
-            await updatePageContent();
+            renderPage();
         }
     });
 
-    prevButton.addEventListener('click', async () => {
+    prevButton.addEventListener('click', () => {
         if (currentPage > 1) {
             currentPage--;
             startIndex = (currentPage - 1) * itemsPerPage;
             endIndex = startIndex + itemsPerPage;
-            await updatePageContent();
+            renderPage();
         }
     });
 
-    initialComentar().then();
+    // ===============================
+    // INIT
+    // ===============================
+    loadData();
     initialBank();
 };
