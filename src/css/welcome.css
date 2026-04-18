@@ -44,12 +44,10 @@
 }
 
 .welcome figure img {
-    width: 10rem;
-    height: 10rem;
-    border-radius: 50%;
+    width: 15rem;
+    height: 15rem;
+    border-radius: 0%;
     object-fit: cover;
-    box-shadow: var(--shadow-md);
-    border: 2px solid #fff;
 }
 
 .welcome figure figcaption {
