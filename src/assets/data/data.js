@@ -10,7 +10,7 @@ export const data = {
         },
         P: {
             id: 2,
-            name: 'Siti Maemunah',
+            name: 'Siti Maemunah, S.E',
             child: 'Putri ke 2',
             father: 'Oman',
             mother: 'Cucu Karyati',
