@@ -2,10 +2,10 @@ export const data = {
     bride: {
         L: {
             id: 1,
-            name: 'Egi Tohari',
+            name: 'Egi Tohari, S.AP',
             child: 'Putra ke 1',
             father: 'Adin Samsudin',
-            mother: 'Nurhayati',
+            mother: 'Nurhayati, S.E',
             image: './src/assets/images/cowo.png'
         },
         P: {
