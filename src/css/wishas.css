@@ -13,21 +13,22 @@
     font-weight: 400;
 }
 
+/* ===============================
+   BANK (TETAP)
+=============================== */
+
 .wishas div:nth-of-type(1) > div {
     margin-top: 1rem;
-    width: 100%;
     display: flex;
-    align-items: center;
     justify-content: center;
     gap: 1rem;
 }
 
 .wishas div:nth-of-type(1) > div figure {
     width: 24rem;
-    text-align: center;
     border-radius: 15px;
     padding: 1rem 0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 -1px 1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .wishas div:nth-of-type(1) > div figure img {
@@ -48,7 +49,6 @@
     background-color: #fff;
     border-radius: 10px;
     cursor: pointer;
-    transition: var(--transition-small);
 }
 
 .wishas div:nth-of-type(1) > div figure button:hover {
@@ -56,24 +56,24 @@
     color: #fff;
 }
 
+/* ===============================
+   FORM (TETAP)
+=============================== */
+
 .wishas div:nth-of-type(2){
     margin-top: 2rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 -1px 1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
     padding: 2rem 4rem 4rem;
 }
 
 .wishas div:nth-of-type(2) > form {
     margin-top: 1rem;
-    width: 100%;
     display: flex;
-    align-items: start;
-    justify-content: start;
     flex-direction: column;
 }
 
 .wishas div:nth-of-type(2) > form label {
-    display: block;
     margin-top: 1.4rem;
     margin-bottom: 4px;
 }
@@ -102,67 +102,112 @@
     cursor: pointer;
 }
 
+/* ===============================
+   UCAPAN (CHAT STYLE)
+=============================== */
+
 .wishas div:nth-of-type(3) {
     margin-top: 2rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 -1px 1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
     padding: 2rem 4rem;
 }
 
 .wishas div:nth-of-type(3) ul {
     margin-top: 1.4rem;
-    width: 100%;
     display: flex;
-    align-items: start;
-    justify-content: start;
     flex-direction: column;
     gap: 1rem;
     min-height: 26rem;
     max-height: 30rem;
-    overflow-y: hidden;
+    overflow-y: auto;
 }
 
-.wishas div:nth-of-type(3) ul li {
+/* ===== CHAT ITEM ===== */
+.wishas div:nth-of-type(3) ul li.chat-item {
     display: flex;
-    align-items: start;
-    justify-content: start;
-    gap: 1rem;
+    gap: 10px;
+    align-items: flex-start;
 }
 
-.wishas div:nth-of-type(3) ul li div:nth-of-type(1){
-    width: 2rem;
-    height: 2rem;
+/* Avatar */
+.wishas div:nth-of-type(3) ul li.chat-item .avatar {
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
     color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    flex-shrink: 0;
 }
 
-.wishas div:nth-of-type(3) ul li div:nth-of-type(2){
-    margin: 0.4rem 0 0;
-    padding: 0;
-    text-align: start;
-    box-shadow: none;
+/* Content */
+.wishas div:nth-of-type(3) ul li.chat-item .chat-content {
+    max-width: 75%;
+    text-align: left;
 }
 
-.wishas div:nth-of-type(3) ul li div:nth-of-type(2) h4 {
-    font-size: 1rem;
-    font-weight: 400;
+/* Header */
+.chat-header {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 4px;
 }
 
-.wishas div:nth-of-type(3) ul li div:nth-of-type(2) p:nth-of-type(1){
-    font-size: 0.6rem;
-    font-weight: 300;
-    line-height: 1rem;
+.chat-header .name {
+    font-weight: 600;
+    font-size: 14px;
 }
 
-.wishas div:nth-of-type(3) ul li div:nth-of-type(2) p:nth-of-type(2){
-    margin-top: 0.4rem;
-    font-weight: 300;
-    font-size: 0.8rem;
+.chat-header .status {
+    font-size: 12px;
+    color: #888;
 }
+
+/* Bubble */
+.chat-bubble {
+    background: #f1f1f1;
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* Hadir highlight */
+.chat-bubble.hadir {
+    background: #e7f7ed;
+}
+
+/* Time */
+.chat-time {
+    font-size: 11px;
+    color: #aaa;
+    margin-top: 4px;
+}
+
+/* Animasi */
+.chat-item {
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===============================
+   PAGINATION (TETAP)
+=============================== */
 
 .wishas div:nth-of-type(3) .button-grup {
     margin: 1rem auto 0;
@@ -171,8 +216,6 @@
     background-color: #fff;
     width: fit-content;
     display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .wishas div:nth-of-type(3) .button-grup > span {
@@ -184,16 +227,16 @@
     justify-content: center;
 }
 
-.wishas div:nth-of-type(3) .button-grup  button {
+.wishas div:nth-of-type(3) .button-grup button {
     padding: 0.5rem 1rem;
     border: none;
-    background:none;
+    background: none;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
 }
+
+/* ===============================
+   BACKGROUND SVG
+=============================== */
 
 .wishas svg:nth-of-type(1){
     position: absolute;
