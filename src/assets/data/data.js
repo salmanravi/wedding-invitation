@@ -41,7 +41,8 @@ export const data = {
                 finish: '14.00'
             }
         },
-        address: 'Jl. Babakan Loa No.10a, Pasirkaliki, Kec. Cimahi Utara, Kota Cimahi, Jawa Barat 40514'
+        address: 'Kampus B Jurusan Gizi Poltekkes Bandung, 
+            Jl. Babakan Loa No.10a, Pasirkaliki, Kec. Cimahi Utara, Kota Cimahi, Jawa Barat 40514'
     },
 
     link: {
