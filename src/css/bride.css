@@ -43,7 +43,6 @@
     height: 12rem;
     object-fit: cover;
     border-radius: 0%;
-    box-shadow: var(--shadow-md);
 }
 
 .bride .bride_couple li figure figcaption {
