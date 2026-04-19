@@ -5,7 +5,7 @@ export const data = {
             name: 'Egi Tohari, S.AP',
             child: 'Putra ke 1',
             father: 'Adin Samsudin',
-            mother: 'Nurhayati, S.E',
+            mother: 'Nurhayati',
             image: './src/assets/images/cowo.png'
         },
         P: {
