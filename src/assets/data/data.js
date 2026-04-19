@@ -28,7 +28,7 @@ export const data = {
             day: 'Minggu',
             hours: {
                 start: '08.00',
-                finish: 'Selesai'
+                finish: '10.00'
             }
         },
         reception: {
@@ -38,7 +38,7 @@ export const data = {
             day: 'Minggu',
             hours: {
                 start: '11.00',
-                finish: 'Selesai'
+                finish: '14.00'
             }
         },
         address: 'Jl. Babakan Loa No.10a, Pasirkaliki, Kec. Cimahi Utara, Kota Cimahi, Jawa Barat 40514'
