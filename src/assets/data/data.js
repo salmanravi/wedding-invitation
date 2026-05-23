@@ -123,4 +123,4 @@ export const data = {
             path: '#wishas',
         },
     ],
-}
+} 
