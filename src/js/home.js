@@ -57,8 +57,8 @@ export const home = () => {
             }
         };
 
-        updateCountdown();
         const intervalId = setInterval(updateCountdown, 1000);
+        updateCountdown();
     };
 
     const initializeHome = () => {
